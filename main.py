@@ -48,7 +48,12 @@ def main():
 
         if st.button("Calculate"):
             profit = estimate_gain(buy_price, sell_price, buy_date, sell_date, )
-            st.write(f'Profit: {profit:.2f} PLN, taxes: {profit * TAX_RATE:.2f} PLN')
+            writer = st.success if profit > 0 else st.error
+            if profit > 1_000_000:
+                st.warning(f"You're also a subject of the solidarity tax! :money_with_wings:")
+
+            tax = max(0, profit * TAX_RATE)
+            writer(f'Profit: {profit:.2f} PLN, taxes: {tax:.2f} PLN')
             deadline = (sell_date + datetime.timedelta(days=365)).year
             st.write(f'Your deadline for [PIT-38](https://www.gov.pl/web/finanse/pit-38) is: April 30, {deadline}')
 
