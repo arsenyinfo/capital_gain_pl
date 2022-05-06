@@ -49,7 +49,8 @@ def main():
         if st.button("Calculate"):
             profit = estimate_gain(buy_price, sell_price, buy_date, sell_date, )
             st.write(f'Profit: {profit:.2f} PLN, taxes: {profit * TAX_RATE:.2f} PLN')
-            st.write(f'Your deadline is: April 30, {(sell_date + datetime.timedelta(days=365)).year}')
+            deadline = (sell_date + datetime.timedelta(days=365)).year
+            st.write(f'Your deadline for [PIT-38](https://www.gov.pl/web/finanse/pit-38) is: April 30, {deadline}')
 
     else:
         st.subheader("Estimate your capital gain for a list of deals")
@@ -60,7 +61,7 @@ def main():
         if st.button("Calculate"):
             st.warning("Not implemented yet!")
 
-    st.info("Donations are welcome and will be spent entirely for :beer:")
+    # st.info("Donations are welcome and will be spent entirely for :beer:")
 
 
 if __name__ == "__main__":
