@@ -1,5 +1,6 @@
 import os
 import tempfile
+from decimal import Decimal
 from functools import lru_cache
 
 import pandas as pd
@@ -20,7 +21,7 @@ def download_rates():
 
         dates = df['data'].values[1:-3]
         values = df['1USD'].values[1:-3]
-        year_parsed = {k: float(v.replace(',', '.')) for k, v in zip(dates, values)}
+        year_parsed = {k: Decimal(v.replace(',', '.')) for k, v in zip(dates, values)}
 
         for k, v in year_parsed.items():
             currency[k] = v

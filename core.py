@@ -1,5 +1,7 @@
 from datetime import datetime
+from decimal import Decimal
 from logging import getLogger
+from typing import Collection, List
 
 import coloredlogs
 import pandas as pd
@@ -9,6 +11,10 @@ from currency import download_rates
 logger = getLogger(__name__)
 
 coloredlogs.install(level='INFO')
+
+
+def to_decimal(collection: Collection) -> List[Decimal]:
+    return [Decimal(x) for x in collection]
 
 
 def convert_usd_to_pln(value: float, date: datetime, offset=1):
@@ -81,9 +87,7 @@ def get_gains_for_asset(group: pd.DataFrame):
     return pd.DataFrame(gains), have_left - debt_left
 
 
-def estimate_gain(buy_usd, sell_usd, buy_date, sell_date):
-
+def estimate_gain(buy_usd, sell_usd, buy_date, sell_date) -> float:
     buy_price_pln = convert_usd_to_pln(buy_usd, buy_date, offset=1)
     sell_price_pln = convert_usd_to_pln(sell_usd, sell_date, offset=1)
-    logger.info(f'{buy_date.date()} {buy_usd} {sell_date.date()} {sell_usd}')
     return sell_price_pln - buy_price_pln
