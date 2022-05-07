@@ -91,3 +91,15 @@ def estimate_gain(buy_usd, sell_usd, buy_date, sell_date) -> float:
     buy_price_pln = convert_usd_to_pln(buy_usd, buy_date, offset=1)
     sell_price_pln = convert_usd_to_pln(sell_usd, sell_date, offset=1)
     return sell_price_pln - buy_price_pln
+
+
+def get_gains_for_multiple_assets(assets: pd.DataFrame):
+    res = []
+    for asset_name, group in assets.groupby('asset'):
+        logger.info(f'Processing {asset_name}')
+        gains, leftover = get_gains_for_asset(group)
+        res.append({'asset': asset_name,
+                    'gains': gains['gain'].sum(),
+                    'leftover': leftover}
+                   )
+    return pd.DataFrame(res).set_index('asset')

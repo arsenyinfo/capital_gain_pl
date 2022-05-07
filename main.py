@@ -63,6 +63,10 @@ def main():
         description = "Upload a file with deals. " \
                       "\nExpected format: csv with columns name, date, price, amount, type (buy/sell)"
         st.file_uploader(description, accept_multiple_files=True, type=["csv"])
+
+        # ToDo: add commission substraction
+        # ToDo: add dividends calculation
+
         if st.button("Calculate"):
             st.warning("Not implemented yet!")
 
